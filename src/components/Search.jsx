@@ -7,11 +7,11 @@ import { ethers } from "ethers";
 const Search = () => {
   const navigate = useNavigate();
   const { yourBlockTransactions, transactions } = useContext(EtherContext);
-  const [userAccount, setUserAccount] = useState(null);
+  const [userAccount, setUserAccount] = useState("");
 
   const accountAddress = (e) => {
     e.preventDefault();
-    let address = e.target.value;
+    let address = userAccount;
     setUserAccount(address);
     navigate(`/account/${address}`);
     address = "";
@@ -25,7 +25,14 @@ const Search = () => {
   return (
     <div>
       <form>
-        <input type="text" placeholder="Search for a Ether Account address" />
+        <input
+          type="text"
+          placeholder="Search for a Ether Account address"
+          value={userAccount}
+          onChange={(e) => {
+            setUserAccount(e.target.value);
+          }}
+        />
         <Link
           to={{
             pathname: `/account/${userAccount}`,
