@@ -1,12 +1,13 @@
 import "./App.css";
-import Navbar from "./components/Navbar";
+import React from "react";
+import Router from "./router/Router";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Navbar />
+    <div>
+      <Router />
     </div>
   );
-}
+};
 
 export default App;
