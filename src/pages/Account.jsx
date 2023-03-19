@@ -9,6 +9,7 @@ import useEtherStore from "../store/useEtherStore";
 const Account = () => {
     const store = useEtherStore();
     const { etherPrice } = store;
+    console.log(etherPrice);
     const { provider } = useContext(EtherContext);
     const { id } = useParams();
     const acc = id;
@@ -52,7 +53,7 @@ const Account = () => {
             .then((data) => {
                 setAccountHistory(data.result);
             });
-        console.log("accountHistory", accountHistory);
+        // console.log("accountHistory", accountHistory);
         // INTERNAL TRANSACTIONS
         await fetch(
             `https://api.etherscan.io/api?module=account&action=txlistinternal&address=${acc}&startblock=0&endblock=99999999&sort=asc&apikey=${API_ETHER_KEY}`
@@ -61,7 +62,7 @@ const Account = () => {
             .then((data) => {
                 setInternalByAddress(data.result);
             });
-        console.log("internalByAddress", internalByAddress);
+        // console.log("internalByAddress", internalByAddress);
 
         // ERC20 TOKENS
         await fetch(
@@ -72,7 +73,7 @@ const Account = () => {
                 setERC20(data.result);
             });
 
-        console.log("ERC20", ERC20);
+        // console.log("ERC20", ERC20);
 
         // ERC721 TOKENS
         await fetch(
@@ -83,7 +84,7 @@ const Account = () => {
                 setERC721(data.result);
             });
 
-        console.log("ERC721", ERC721);
+        // console.log("ERC721", ERC721);
 
         // ERC1155 TOKENS
         await fetch(
@@ -94,7 +95,7 @@ const Account = () => {
                 setERC1155(data.result);
             });
 
-        console.log("ERC1155", ERC1155);
+        // console.log("ERC1155", ERC1155);
 
         // BLOCK MINED BY ADDRESS
         await fetch(
@@ -105,7 +106,7 @@ const Account = () => {
                 setBlockMindedByAddress(data.result);
             });
 
-        console.log("blockMindedByAddress", blockMindedByAddress);
+        // console.log("blockMindedByAddress", blockMindedByAddress);
 
         // BLOCK RANGE TRANSACTIONS
         await fetch(
@@ -116,7 +117,7 @@ const Account = () => {
                 setBlockRangeTransactions(data.result);
             });
 
-        console.log("blockRangeTransactions", blockRangeTransactions);
+        // console.log("blockRangeTransactions", blockRangeTransactions);
     };
 
     useEffect(() => {

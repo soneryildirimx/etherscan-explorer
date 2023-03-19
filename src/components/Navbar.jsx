@@ -12,6 +12,7 @@ const Navbar = () => {
     // const [price, setPrice] = useState([]);
     const store = useEtherStore();
     const { etherPrice, setEtherPrice } = store;
+    console.log('etherPrice', etherPrice);
 
     const getEtherPrice = async () => {
         const API_ETHER_KEY = import.meta.env.VITE_API_ETHER_KEY;
