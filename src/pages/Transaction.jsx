@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { EtherContext } from "../context/Ether";
-import { formatUnits } from "../utils/formatUnits";
+import { formatEther } from "ethers/lib/utils";
 
 const Transaction = () => {
     const { provider } = useContext(EtherContext);
@@ -24,8 +24,12 @@ const Transaction = () => {
         <div>
             <h1>Transaction Details</h1>
             <p>Hash: {transaction.hash}</p>
-            {/* blocknumber için yönlendirme */}
-            <p>Block Number: {transaction.blockNumber}</p>
+            <p>
+                Block Number:
+                <Link to={`/block/${transaction.blockNumber}`}>
+                    {transaction.blockNumber}
+                </Link>
+            </p>
             <p>
                 From:
                 <Link to={`/account/${transaction.from}`}>
@@ -37,25 +41,20 @@ const Transaction = () => {
                 <Link to={`/account/${transaction.to}`}>{transaction.to}</Link>
             </p>
             <p>
-                Value:{" "}
-                {formatUnits(transaction.value ? transaction.value : 0, 18)}
+                Value: {formatEther(transaction.value ? transaction.value : 0)}{" "}
+                ETH
             </p>
             <p>
                 Gas Price:{" "}
-                {formatUnits(
-                    transaction.gasPrice ? transaction.gasPrice : 0,
-                    9
-                )}
+                {formatEther(transaction.gasPrice ? transaction.gasPrice : 0)}{" "}
+                ETH
             </p>
             <p>
                 Gas Limit:{" "}
-                {formatUnits(
-                    transaction.gasLimit ? transaction.gasLimit : 0,
-                    9
-                )}
+                {formatEther(transaction.gasLimit ? transaction.gasLimit : 0)}{" "}
+                ETH
             </p>
             <p>Nonce: {transaction.nonce}</p>
-            <p>Data: {transaction.data}</p>
             <p>Chain ID: {transaction.chainId}</p>
         </div>
     );

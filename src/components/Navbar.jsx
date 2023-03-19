@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import useEtherStore from "../store/useEtherStore";
 
@@ -12,7 +13,6 @@ const Navbar = () => {
     // const [price, setPrice] = useState([]);
     const store = useEtherStore();
     const { etherPrice, setEtherPrice } = store;
-    console.log('etherPrice', etherPrice);
 
     const getEtherPrice = async () => {
         const API_ETHER_KEY = import.meta.env.VITE_API_ETHER_KEY;
@@ -111,8 +111,17 @@ const Navbar = () => {
 
     return (
         <nav className="w-full flex">
-            <div className="w-1/2 bg-red-500">sol</div>
-            <div className="w-1/2 bg-blue-500">
+            <div className="w-1/2 font-bold">
+                <Link
+                    to="/"
+                    onClick={() => {
+                        window.screenTop = 0;
+                    }}
+                >
+                    EXPLORER
+                </Link>
+            </div>
+            <div className="w-1/2">
                 {userAccount ? (
                     <div>
                         <button

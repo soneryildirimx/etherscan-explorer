@@ -52,7 +52,7 @@ const Search = () => {
             </form>
 
             {/* MAIN SECTION IF HOME PAGE */}
-            <div className="w-full flex gap-4 justify-between">
+            <div className="w-full flex gap-4 justify-between mt-10">
                 <div className="w-1/2">
                     <h3 className="font-bold border-b border-gray-500 text-lg text-left pl-2 pb-2">
                         Latest Blocks

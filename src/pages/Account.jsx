@@ -9,7 +9,6 @@ import useEtherStore from "../store/useEtherStore";
 const Account = () => {
     const store = useEtherStore();
     const { etherPrice } = store;
-    console.log(etherPrice);
     const { provider } = useContext(EtherContext);
     const { id } = useParams();
     const acc = id;
@@ -37,7 +36,11 @@ const Account = () => {
             const totalTransactions = await provider.getTransactionCount(acc);
             setTotalTransactions(totalTransactions);
             const ENS = await provider.lookupAddress(acc);
-            setName(ENS);
+            if (ENS !== null) {
+                setName(ENS);
+            } else {
+                setName(acc);
+            }
             setLoading(false);
         } catch (error) {
             console.log(error);
@@ -134,7 +137,7 @@ const Account = () => {
                         <h1>Account</h1>
                         <div>
                             <h2>Account: {acc}</h2>
-                            <h2>Balance: {balance}</h2>
+                            <h2>Balance: {balance} ETH</h2>
                             <h2>Balance Value: $ {balance * etherPrice}</h2>
                             <h2>Total Transactions: {totalTransactions}</h2>
                             <h2>Name: {name}</h2>
