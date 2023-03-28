@@ -10,12 +10,13 @@ const provider = new ethers.providers.JsonRpcProvider(
 export const EtherContext = createContext({});
 
 export const EtherProvider = ({ children }) => {
-    const tenBlockWithDetails = [];
-    const [yourBlockTransactions, setYourBlockTransactions] =
-        useState(tenBlockWithDetails);
+    // const tenBlockWithDetails = [];
+    // const [yourBlockTransactions, setYourBlockTransactions] =
+    //     useState(tenBlockWithDetails);
     const [currentBlock, setCurrentBlock] = useState([]);
     const [topTenBlocks, setTopTenBlocks] = useState([]);
     const [transactions, setTransactions] = useState([]);
+    const [latestblocks, setLatestBlocks] = useState([]);
     const [gasPrice, setGasPrice] = useState(null);
 
     const accountDetails = async () => {
@@ -25,6 +26,15 @@ export const EtherProvider = ({ children }) => {
         //SINGLE BLOCK TRANSACTIONS
         const blockTransaction = await provider.getBlock(getCurrentBlock);
         setTransactions(blockTransaction.transactions.slice(0, 10));
+
+        // LATEST BLOCKS
+        const getLatestBlocks = await provider.getBlockNumber();
+        const latestBlocks = [];
+        for (let i = 0; i < 10; i++) {
+            const block = await provider.getBlock(getLatestBlocks - i);
+            latestBlocks.push(block);
+        }
+        setLatestBlocks(latestBlocks);
 
         //TOP TEN BLOCKS
         const getTopTenBlocks = await provider.getBlockNumber();
@@ -42,10 +52,10 @@ export const EtherProvider = ({ children }) => {
         const blockDetails = await Promise.all(getBlockDetails);
         setTopTenBlocks(blockDetails);
 
-        getBlockDetails.map(async (block) => {
-            const singleBlockData = await provider.getBlock(block);
-            tenBlockWithDetails.push(singleBlockData);
-        });
+        // getBlockDetails.map(async (block) => {
+        //     const singleBlockData = await provider.getBlock(block);
+        //     tenBlockWithDetails.push(singleBlockData);
+        // });
 
         // GAS PRICE
         const gasPrice = await provider.getGasPrice();
@@ -62,7 +72,7 @@ export const EtherProvider = ({ children }) => {
             value={{
                 currentBlock,
                 topTenBlocks,
-                yourBlockTransactions,
+                latestblocks,
                 transactions,
                 gasPrice,
                 provider,

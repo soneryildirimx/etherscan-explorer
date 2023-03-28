@@ -8,26 +8,33 @@ import { formatTimestamp } from "../utils/formatTimestamp";
 
 const Search = () => {
     const navigate = useNavigate();
-    const { yourBlockTransactions, transactions } = useContext(EtherContext);
+    const { latestblocks, transactions } = useContext(EtherContext);
     const [userAccount, setUserAccount] = useState("");
 
     const accountAddress = (e) => {
-        e.preventDefault();
-        let address = userAccount;
-        setUserAccount(address);
-        navigate(`/account/${address}`);
-        address = "";
+        if (userAccount === "") {
+            e.preventDefault();
+        } else {
+            e.preventDefault();
+            let address = userAccount;
+            setUserAccount(address);
+            navigate(`/account/${address}`);
+            address = "";
+        }
     };
 
     const convertToEther = (wei) => {
         const ether = ethers.utils.formatEther(wei);
-        return ether;
+        const typeNumberEther = Number(ether);
+        const etherFixed = typeNumberEther.toFixed(2);
+        return etherFixed;
     };
 
     return (
-        <div>
+        <div className="pt-10">
             <form>
                 <input
+                    className="bg-gray-200 p-4 focus:outline-none w-1/2"
                     type="text"
                     placeholder="Search for a Ether Account address"
                     value={userAccount}
@@ -42,6 +49,7 @@ const Search = () => {
                     }}
                 >
                     <button
+                        className="text-secondary font-bold pl-4"
                         onClick={(e) => {
                             accountAddress(e);
                         }}
@@ -54,72 +62,88 @@ const Search = () => {
             {/* MAIN SECTION IF HOME PAGE */}
             <div className="w-full flex gap-4 justify-between mt-10">
                 <div className="w-1/2">
-                    <h3 className="font-bold border-b border-gray-500 text-lg text-left pl-2 pb-2">
+                    <h3 className="font-bold border-b border-border text-lg text-left text-primary pl-2 pb-2">
                         Latest Blocks
                     </h3>
-                    {yourBlockTransactions.map((block, index) => {
+                    {latestblocks.map((block, index) => {
                         return (
-                            <div className="flex" key={index}>
-                                <div>
-                                    <p className="font-bold">BK</p>
-                                    <Link
-                                        to={{
-                                            pathname: `/block/${block.number}`,
-                                            state: { block: block.number },
-                                        }}
-                                    >
-                                        {block.number}
-                                    </Link>
-                                    <p>{formatTimestamp(block.timestamp)}</p>
-                                </div>
-                                <div className="flex items-center">
+                            <div
+                                className="flex justify-between text-left items-center border-b border-border py-2"
+                                key={index}
+                            >
+                                <div className="flex items-center gap-2">
+                                    <p className="border p-1 border-border font-bold text-secondary">
+                                        BK
+                                    </p>
                                     <div>
-                                        <div>Miner</div>
                                         <Link
-                                            to={{
-                                                pathname: `/account/${block.miner}`,
-                                                state: {
-                                                    userAccount: block.miner,
-                                                },
-                                            }}
-                                        >
-                                            {shortenAddress(block.miner)}
-                                        </Link>
-                                    </div>
-                                    <div>
-                                        <div>Transactions</div>
-                                        <Link
+                                            className="text-secondary"
                                             to={{
                                                 pathname: `/block/${block.number}`,
                                                 state: { block: block.number },
                                             }}
                                         >
-                                            {block.transactions.length}
+                                            {block.number}
                                         </Link>
-                                    </div>
-                                    <span>
-                                        {/* <span>Reward</span> */}
-                                        <p>
-                                            {convertToEther(
-                                                block.baseFeePerGas
-                                            )}{" "}
-                                            Eth
+                                        <p className="text-[10px] text-gray-100">
+                                            {formatTimestamp(block.timestamp)}
                                         </p>
-                                    </span>
+                                    </div>
                                 </div>
+                                <div>
+                                    <p className="text-secondary text-xs">
+                                        Miner
+                                    </p>
+                                    <Link
+                                        className="text-primary"
+                                        to={{
+                                            pathname: `/account/${block.miner}`,
+                                            state: {
+                                                userAccount: block.miner,
+                                            },
+                                        }}
+                                    >
+                                        {shortenAddress(block.miner)}
+                                    </Link>
+                                </div>
+                                <div className="flex gap-2 items-center">
+                                    <Link
+                                        className="text-secondary"
+                                        to={{
+                                            pathname: `/block/${block.number}`,
+                                            state: { block: block.number },
+                                        }}
+                                    >
+                                        {block.transactions.length}
+                                    </Link>
+                                    <p className="text-xs font-bold text-gray-100">
+                                        txns
+                                    </p>
+                                </div>
+                                <span className="border border-border rounded-md p-1 text-xs gap-2 flex">
+                                    {/* <span>Reward</span> */}
+                                    <p className="text-secondary">
+                                        {convertToEther(block.baseFeePerGas)}
+                                    </p>
+                                    <p className="text-gray-100">ETH</p>
+                                </span>
                             </div>
                         );
                     })}
                 </div>
                 <div className="w-1/2">
-                    <h3 className="font-bold border-b border-gray-500 text-lg text-left pl-2 pb-2">
+                    <h3 className="font-bold border-b border-border text-lg text-primary text-left pl-2 pb-2">
                         Latest Transactions
                     </h3>{" "}
                     {transactions.map((transaction, index) => {
                         return (
-                            <div key={index}>
-                                <p>TX</p>
+                            <div
+                                className="flex justify-between items-center border-b border-border py-4"
+                                key={index}
+                            >
+                                <p className="text-secondary">TX</p>
                                 <Link
+                                    className="text-primary"
                                     to={{
                                         pathname: `/transaction/${transaction}`,
                                         state: { transaction: transaction },

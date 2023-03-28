@@ -110,9 +110,10 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav className="w-full flex">
-            <div className="w-1/2 font-bold">
+        <nav className="w-full flex justify-between items-center border-b border-border pb-2">
+            <div className="font-bold">
                 <Link
+                    className="text-2xl"
                     to="/"
                     onClick={() => {
                         window.screenTop = 0;
@@ -121,21 +122,20 @@ const Navbar = () => {
                     EXPLORER
                 </Link>
             </div>
-            <div className="w-1/2">
+            <div>
                 {userAccount ? (
                     <div>
                         <button
                             onClick={() => openUserInfo()}
-                            className="bg-blue-500"
+                            className="text-secondary"
                         >
-                            Acc: {userAccount.substring(0, 6)}...
+                            {userAccount.substring(0, 6)}...
                             {userAccount.substring(38)}
                         </button>
                         {openModal ? (
-                            <div className="bg-blue-500">
-                                <p>Account: {userAccount}</p>
-                                <p>Price: {etherPrice}</p>
-                                <p>Transaction: 1</p>
+                            <div className="text-secondary">
+                                {/* <p>Account: {userAccount}</p> */}
+                                {/* <p>Price: {etherPrice}</p> */}
                             </div>
                         ) : (
                             ""
