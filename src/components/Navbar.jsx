@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import useEtherStore from "../store/useEtherStore";
+import { Web3Button, useWeb3Modal } from "@web3modal/react";
+import { useAccount } from "wagmi";
 
 const Navbar = () => {
     const [userAccount, setUserAccount] = useState(null);
@@ -13,6 +15,7 @@ const Navbar = () => {
     // const [price, setPrice] = useState([]);
     const store = useEtherStore();
     const { etherPrice, setEtherPrice } = store;
+    const { open, isOpen } = useWeb3Modal();
 
     const getEtherPrice = async () => {
         const API_ETHER_KEY = import.meta.env.VITE_API_ETHER_KEY;
@@ -122,7 +125,7 @@ const Navbar = () => {
                     EXPLORER
                 </Link>
             </div>
-            <div>
+            {/* <div>
                 {userAccount ? (
                     <div>
                         <button
@@ -132,19 +135,12 @@ const Navbar = () => {
                             {userAccount.substring(0, 6)}...
                             {userAccount.substring(38)}
                         </button>
-                        {openModal ? (
-                            <div className="text-secondary">
-                                {/* <p>Account: {userAccount}</p> */}
-                                {/* <p>Price: {etherPrice}</p> */}
-                            </div>
-                        ) : (
-                            ""
-                        )}
                     </div>
                 ) : (
                     <button onClick={connectWallet}>Connect Wallet</button>
                 )}
-            </div>
+            </div> */}
+            <Web3Button />
         </nav>
     );
 };
