@@ -134,14 +134,53 @@ const Account = () => {
             ) : (
                 <div className="account">
                     <div>
-                        <h1>Account</h1>
-                        <div>
-                            <h2>Account: {acc}</h2>
-                            <h2>Balance: {balance} ETH</h2>
-                            <h2>Balance Value: $ {balance * etherPrice}</h2>
-                            <h2>Total Transactions: {totalTransactions}</h2>
-                            <h2>Name: {name}</h2>
-                        </div>
+                        <h3 className="font-bold border-b border-border text-lg text-primary text-left pb-2 mb-4 mt-4">
+                            Account
+                        </h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                        Account
+                                    </td>
+                                    <td className="text-left py-2 text-secondary">
+                                        {acc}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                        Balance
+                                    </td>
+                                    <td className="text-left py-2 text-secondary">
+                                        {balance} ETH
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                        Balance Value
+                                    </td>
+                                    <td className="text-left py-2 text-secondary">
+                                        $ {balance * etherPrice}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                        Total Transactions
+                                    </td>
+                                    <td className="text-left py-2 text-secondary">
+                                        {totalTransactions}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                        Name
+                                    </td>
+                                    <td className="text-left py-2 text-secondary">
+                                        {name}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             )}

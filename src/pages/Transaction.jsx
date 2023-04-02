@@ -22,40 +22,90 @@ const Transaction = () => {
 
     return (
         <div>
-            <h1>Transaction Details</h1>
-            <p>Hash: {transaction.hash}</p>
-            <p>
-                Block Number:
-                <Link to={`/block/${transaction.blockNumber}`}>
-                    {transaction.blockNumber}
-                </Link>
-            </p>
-            <p>
-                From:
-                <Link to={`/account/${transaction.from}`}>
-                    {transaction.from}
-                </Link>
-            </p>
-            <p>
-                To:{" "}
-                <Link to={`/account/${transaction.to}`}>{transaction.to}</Link>
-            </p>
-            <p>
-                Value: {formatEther(transaction.value ? transaction.value : 0)}{" "}
-                ETH
-            </p>
-            <p>
-                Gas Price:{" "}
-                {formatEther(transaction.gasPrice ? transaction.gasPrice : 0)}{" "}
-                ETH
-            </p>
-            <p>
-                Gas Limit:{" "}
-                {formatEther(transaction.gasLimit ? transaction.gasLimit : 0)}{" "}
-                ETH
-            </p>
-            <p>Nonce: {transaction.nonce}</p>
-            <p>Chain ID: {transaction.chainId}</p>
+            <h3 className="font-bold border-b border-border text-lg text-primary text-left pb-2 mb-4 mt-4">
+                Transaction Details
+            </h3>
+            <table>
+                <tbody>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">Hash</td>
+                        <td className="text-left py-2 text-secondary">
+                            {transaction.hash}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">
+                            Block Number
+                        </td>
+                        <td className="text-left py-2 text-secondary">
+                            <Link to={`/block/${transaction.blockNumber}`}>
+                                {transaction.blockNumber}
+                            </Link>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">From</td>
+                        <td className="text-left py-2 text-secondary">
+                            <Link to={`/account/${transaction.from}`}>
+                                {transaction.from}
+                            </Link>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">To</td>
+                        <td className="text-left py-2 text-secondary">
+                            <Link to={`/account/${transaction.to}`}>
+                                {transaction.to}
+                            </Link>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">Value</td>
+                        <td className="text-left py-2 text-secondary">
+                            {formatEther(
+                                transaction.value ? transaction.value : 0
+                            )}{" "}
+                            ETH
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">
+                            Gas Price
+                        </td>
+                        <td className="text-left py-2 text-secondary">
+                            {formatEther(
+                                transaction.gasPrice ? transaction.gasPrice : 0
+                            )}{" "}
+                            ETH
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">
+                            Gas Limit
+                        </td>
+                        <td className="text-left py-2 text-secondary">
+                            {formatEther(
+                                transaction.gasLimit ? transaction.gasLimit : 0
+                            )}{" "}
+                            ETH
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">Nonce</td>
+                        <td className="text-left py-2 text-secondary">
+                            {transaction.nonce}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="text-left py-2 w-1/3 text-gray-100">
+                            Chain ID
+                        </td>
+                        <td className="text-left py-2 text-secondary">
+                            {transaction.chainId}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     );
 };
