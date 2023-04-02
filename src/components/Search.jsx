@@ -6,7 +6,6 @@ import { ethers } from "ethers";
 import { shortenAddress } from "../utils/shortenAddress";
 import { formatTimestamp } from "../utils/formatTimestamp";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 const Search = () => {
     const navigate = useNavigate();
@@ -45,7 +44,7 @@ const Search = () => {
                 <input
                     className="bg-gray-200 p-4 focus:outline-none w-1/2"
                     type="text"
-                    placeholder="Search for a Ether Account address"
+                    placeholder="Search by Address / Txn Hash / Block"
                     value={userAccount}
                     onChange={(e) => {
                         setUserAccount(e.target.value);
@@ -58,7 +57,7 @@ const Search = () => {
                     }}
                 >
                     <button
-                        className="text-secondary font-bold pl-4"
+                        className="border h-auto bg-green-100 hover:bg-green-200 transition-all text-secondary font-bold p-4"
                         onClick={(e) => {
                             accountAddress(e);
                         }}
@@ -69,9 +68,9 @@ const Search = () => {
             </form>
 
             {/* MAIN SECTION IF HOME PAGE */}
-            <div className="w-full flex gap-4 justify-between mt-10">
-                <div className="w-1/2">
-                    <h3 className="font-bold border-b border-border text-lg text-left text-primary pl-2 pb-2">
+            <div className="w-full md:flex gap-4 justify-between mt-10">
+                <div className="md:w-1/2 mb-10 md:mb-0">
+                    <h3 className="font-bold border-b border-border text-lg text-left text-primary pb-2">
                         Latest Blocks
                     </h3>
                     {latestblocks &&
@@ -79,16 +78,16 @@ const Search = () => {
                         latestblocks.map((block, index) => {
                             return (
                                 <div
-                                    className="flex justify-between text-left items-center border-b border-border py-2"
+                                    className="w-full flex justify-between text-left items-center place-content-center border-b border-border py-2 gap-4"
                                     key={index}
                                 >
-                                    <div className="flex items-center gap-2">
+                                    <div className="w-1/4 flex items-center gap-2">
                                         <p className="border p-1 border-border font-bold text-secondary">
                                             BK
                                         </p>
                                         <div>
                                             <Link
-                                                className="text-secondary"
+                                                className="text-secondary text-xs md:text-md"
                                                 to={{
                                                     pathname: `/block/${block.number}`,
                                                     state: {
@@ -99,18 +98,20 @@ const Search = () => {
                                                 {block.number}
                                             </Link>
                                             <p className="text-[10px] text-gray-100">
-                                                {formatTimestamp(
-                                                    block.timestamp
+                                                {shortenAddress(
+                                                    formatTimestamp(
+                                                        block.timestamp
+                                                    )
                                                 )}
                                             </p>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div className="w-1/4">
                                         <p className="text-secondary text-xs">
                                             Miner
                                         </p>
                                         <Link
-                                            className="text-primary"
+                                            className="text-primary text-xs md:text-md"
                                             to={{
                                                 pathname: `/account/${block.miner}`,
                                                 state: {
@@ -121,7 +122,7 @@ const Search = () => {
                                             {shortenAddress(block.miner)}
                                         </Link>
                                     </div>
-                                    <div className="flex gap-2 items-center">
+                                    <div className="w-1/4 flex gap-2 items-center">
                                         <Link
                                             className="text-secondary"
                                             to={{
@@ -135,7 +136,7 @@ const Search = () => {
                                             txns
                                         </p>
                                     </div>
-                                    <span className="border border-border rounded-md p-1 text-xs gap-2 flex">
+                                    <div className="border border-border rounded-md p-1 text-xs gap-1 flex">
                                         {/* <span>Reward</span> */}
                                         <p className="text-secondary">
                                             {convertToEther(
@@ -143,7 +144,7 @@ const Search = () => {
                                             )}
                                         </p>
                                         <p className="text-gray-100">ETH</p>
-                                    </span>
+                                    </div>
                                 </div>
                             );
                         })}
@@ -162,8 +163,8 @@ const Search = () => {
                         </SkeletonTheme>
                     )}
                 </div>
-                <div className="w-1/2">
-                    <h3 className="font-bold border-b border-border text-lg text-primary text-left pl-2 pb-2">
+                <div className="md:w-1/2">
+                    <h3 className="font-bold border-b border-border text-lg text-primary text-left pb-2">
                         Latest Transactions
                     </h3>
                     {transactions &&

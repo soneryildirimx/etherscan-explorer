@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { EtherContext } from "../context/Ether";
 import Table from "../components/Table";
 import useEtherStore from "../store/useEtherStore";
+import { shortenAddress } from "../utils/shortenAddress";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const Account = () => {
     const store = useEtherStore();
@@ -130,7 +132,15 @@ const Account = () => {
     return (
         <>
             {loading ? (
-                <div className="loading">Loading...</div>
+                <SkeletonTheme baseColor="#202020" highlightColor="#444">
+                    <Skeleton
+                        count={7}
+                        height={20}
+                        style={{
+                            margin: "10px 0",
+                        }}
+                    />
+                </SkeletonTheme>
             ) : (
                 <div className="account">
                     <div>
@@ -140,43 +150,43 @@ const Account = () => {
                         <table>
                             <tbody>
                                 <tr>
-                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                    <td className="py-2 w-1/3 text-gray-100">
                                         Account
                                     </td>
-                                    <td className="text-left py-2 text-secondary">
-                                        {acc}
+                                    <td className="py-2 text-secondary">
+                                        {shortenAddress(acc)}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                    <td className="py-2 w-1/3 text-gray-100">
                                         Balance
                                     </td>
-                                    <td className="text-left py-2 text-secondary">
+                                    <td className="py-2 text-secondary">
                                         {balance} ETH
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                    <td className="py-2 w-1/3 text-gray-100">
                                         Balance Value
                                     </td>
-                                    <td className="text-left py-2 text-secondary">
+                                    <td className="py-2 text-secondary">
                                         $ {balance * etherPrice}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                    <td className="py-2 w-1/3 text-gray-100">
                                         Total Transactions
                                     </td>
-                                    <td className="text-left py-2 text-secondary">
+                                    <td className="py-2 text-secondary">
                                         {totalTransactions}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="text-left py-2 w-1/3 text-gray-100">
+                                    <td className="py-2 w-1/3 text-gray-100">
                                         Name
                                     </td>
-                                    <td className="text-left py-2 text-secondary">
-                                        {name}
+                                    <td className="py-2 text-secondary">
+                                        {shortenAddress(name)}
                                     </td>
                                 </tr>
                             </tbody>
@@ -185,17 +195,19 @@ const Account = () => {
                 </div>
             )}
 
-            {!loading ? (
-                <Table
-                    accountHistory={accountHistory}
-                    internalByAddress={internalByAddress}
-                    ERC20={ERC20}
-                    ERC721={ERC721}
-                    ERC1155={ERC1155}
-                    blockMindedByAddress={blockMindedByAddress}
-                    blockRangeTransactions={blockRangeTransactions}
-                />
-            ) : null}
+            <div className="mt-10">
+                {!loading ? (
+                    <Table
+                        accountHistory={accountHistory}
+                        internalByAddress={internalByAddress}
+                        ERC20={ERC20}
+                        ERC721={ERC721}
+                        ERC1155={ERC1155}
+                        blockMindedByAddress={blockMindedByAddress}
+                        blockRangeTransactions={blockRangeTransactions}
+                    />
+                ) : null}
+            </div>
         </>
     );
 };

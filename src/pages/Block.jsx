@@ -5,8 +5,11 @@ import { EtherContext } from "../context/Ether";
 import { formatEther } from "ethers/lib/utils";
 import { formatTimestamp } from "../utils/formatTimestamp";
 import { Link } from "react-router-dom";
+import { shortenAddress } from "../utils/shortenAddress";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const Block = () => {
+    const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState(1);
     const { provider } = useContext(EtherContext);
     const { id } = useParams();
@@ -17,6 +20,7 @@ const Block = () => {
     const getBlock = async () => {
         const block = await provider.getBlock(blockNumber);
         setBlock(block);
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -54,98 +58,114 @@ const Block = () => {
                     Transactions
                 </button>
             </div>
-            {activeTab === 1 && (
-                <table>
-                    <tbody>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Block Number
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {block.number}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Difficulty
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {block.difficulty}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Extra Data
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {block.extraData}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Miner
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                <Link to={`/account/${block.miner}`}>
-                                    {block.miner}
-                                </Link>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Gas Limit
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {formatEther(
-                                    block.gasLimit ? block.gasLimit : 0
-                                )}{" "}
-                                ETH
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Gas Used
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {formatEther(block.gasUsed ? block.gasUsed : 0)}{" "}
-                                ETH
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Hash
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {block.hash}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Nonce
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {block.nonce}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Parent Hash
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {block.parentHash}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="text-left py-2 w-1/3 text-gray-100">
-                                Timestamp
-                            </td>
-                            <td className="text-left py-2 text-secondary">
-                                {formatTimestamp(block.timestamp)}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            )}
+            {activeTab === 1 &&
+                (loading ? (
+                    <SkeletonTheme baseColor="#202020" highlightColor="#444">
+                        <Skeleton
+                            count={10}
+                            height={20}
+                            style={{
+                                margin: "10px 0",
+                            }}
+                        />
+                    </SkeletonTheme>
+                ) : (
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Block Number
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    {block.number}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Difficulty
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    {block.difficulty}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Extra Data
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    {block.extraData &&
+                                        shortenAddress(block.extraData)}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Miner
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    <Link to={`/account/${block.miner}`}>
+                                        {block.miner &&
+                                            shortenAddress(block.miner)}
+                                    </Link>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Gas Limit
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    {formatEther(
+                                        block.gasLimit ? block.gasLimit : 0
+                                    )}{" "}
+                                    ETH
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Gas Used
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    {formatEther(
+                                        block.gasUsed ? block.gasUsed : 0
+                                    )}{" "}
+                                    ETH
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Hash
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    {block.hash && shortenAddress(block.hash)}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Nonce
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    {block.nonce}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Parent Hash
+                                </td>
+                                <td className="py-2 text-secondary whitespace-normal">
+                                    {block.parentHash &&
+                                        shortenAddress(block.parentHash)}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="py-2 w-1/3 text-gray-100">
+                                    Timestamp
+                                </td>
+                                <td className="py-2 text-secondary">
+                                    {formatTimestamp(block.timestamp)}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                ))}
             {activeTab === 2 && (
                 <div className="max-h-[600px] overflow-hidden overflow-y-auto text-left">
                     <ul>
@@ -162,7 +182,7 @@ const Block = () => {
                                         className="text-primary"
                                         to={`/transaction/${tx}`}
                                     >
-                                        {tx}
+                                        {shortenAddress(tx)}
                                     </Link>
                                 </li>
                             ))}

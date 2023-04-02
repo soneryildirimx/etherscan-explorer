@@ -4,13 +4,14 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { EtherProvider } from "./context/Ether";
 import "./index.css";
+import "react-loading-skeleton/dist/skeleton.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <EtherProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </EtherProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <EtherProvider>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </EtherProvider>
+    </React.StrictMode>
 );
